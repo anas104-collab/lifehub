@@ -1,0 +1,1609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>LifeHub Pro</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+:root{
+    --bg:#f5f7fb;
+    --card:#ffffff;
+    --text:#172033;
+    --muted:#64748b;
+    --primary:#6366f1;
+    --primary2:#8b5cf6;
+    --border:#e2e8f0;
+    --input:#f8fafc;
+    --danger:#ef4444;
+    --success:#22c55e;
+    --shadow:0 10px 35px rgba(0,0,0,.07);
+}
+
+body.dark{
+    --bg:#0b1120;
+    --card:#111827;
+    --text:#f1f5f9;
+    --muted:#94a3b8;
+    --border:#263449;
+    --input:#0f172a;
+    --shadow:0 10px 35px rgba(0,0,0,.25);
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    min-height:100vh;
+    transition:.3s;
+}
+
+header{
+    padding:55px 20px;
+    text-align:center;
+    color:white;
+    background:
+        radial-gradient(circle at 20% 20%,#a78bfa55,transparent 30%),
+        linear-gradient(135deg,#4f46e5,#7c3aed,#9333ea);
+}
+
+header h1{
+    font-size:48px;
+    margin-bottom:10px;
+}
+
+header p{
+    opacity:.9;
+}
+
+.topbar{
+    position:sticky;
+    top:0;
+    z-index:100;
+    background:var(--card);
+    border-bottom:1px solid var(--border);
+    box-shadow:0 3px 15px rgba(0,0,0,.05);
+}
+
+.nav{
+    max-width:1200px;
+    margin:auto;
+    padding:12px 20px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    flex-wrap:wrap;
+}
+
+.nav button,
+.nav select{
+    border:1px solid var(--border);
+    background:var(--input);
+    color:var(--text);
+    padding:10px 14px;
+    border-radius:22px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.nav button:hover{
+    background:var(--primary);
+    color:white;
+}
+
+.container{
+    max-width:1200px;
+    margin:30px auto;
+    padding:0 20px;
+}
+
+.search{
+    width:100%;
+    padding:16px 20px;
+    border:1px solid var(--border);
+    border-radius:15px;
+    background:var(--card);
+    color:var(--text);
+    font-size:16px;
+    margin-bottom:25px;
+    outline:none;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(290px,1fr));
+    gap:20px;
+}
+
+.card{
+    background:var(--card);
+    border:1px solid var(--border);
+    padding:24px;
+    border-radius:20px;
+    box-shadow:var(--shadow);
+    transition:.25s;
+}
+
+.card:hover{
+    transform:translateY(-3px);
+}
+
+.card h2,
+.card h3{
+    margin-bottom:10px;
+}
+
+.card p{
+    color:var(--muted);
+    line-height:1.6;
+    margin-bottom:15px;
+}
+
+.icon{
+    font-size:35px;
+    margin-bottom:12px;
+}
+
+input,
+textarea,
+select{
+    width:100%;
+    padding:12px;
+    margin:5px 0 10px;
+    border:1px solid var(--border);
+    border-radius:10px;
+    background:var(--input);
+    color:var(--text);
+    outline:none;
+}
+
+textarea{
+    resize:vertical;
+}
+
+button.action{
+    border:0;
+    background:linear-gradient(135deg,var(--primary),var(--primary2));
+    color:white;
+    padding:11px 16px;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+button.action:hover{
+    opacity:.9;
+}
+
+.result{
+    margin-top:12px;
+    padding:12px;
+    border-radius:10px;
+    background:#eef2ff;
+    color:#3730a3;
+    min-height:20px;
+    font-weight:bold;
+}
+
+body.dark .result{
+    background:#172554;
+    color:#c7d2fe;
+}
+
+.full{
+    grid-column:1/-1;
+}
+
+.ai{
+    background:
+        radial-gradient(circle at top right,#8b5cf633,transparent 35%),
+        var(--card);
+}
+
+.ai-chat{
+    height:280px;
+    overflow-y:auto;
+    padding:12px;
+    border:1px solid var(--border);
+    border-radius:14px;
+    margin-bottom:10px;
+    background:var(--input);
+}
+
+.message{
+    max-width:85%;
+    padding:11px 14px;
+    border-radius:14px;
+    margin:7px 0;
+    line-height:1.5;
+}
+
+.user{
+    margin-left:auto;
+    background:var(--primary);
+    color:white;
+}
+
+.bot{
+    background:var(--card);
+    border:1px solid var(--border);
+}
+
+.ai-input{
+    display:flex;
+    gap:8px;
+}
+
+.ai-input input{
+    margin:0;
+}
+
+.todo-list,
+.expenses{
+    list-style:none;
+    margin-top:15px;
+}
+
+.todo-list li,
+.expenses li{
+    padding:12px;
+    margin-bottom:8px;
+    background:var(--input);
+    border-radius:10px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+}
+
+.todo-list span{
+    flex:1;
+    cursor:pointer;
+}
+
+.done{
+    text-decoration:line-through;
+    opacity:.5;
+}
+
+.delete{
+    border:0;
+    background:#fee2e2;
+    color:#dc2626;
+    padding:7px 10px;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.timer{
+    font-size:48px;
+    font-weight:bold;
+    text-align:center;
+    margin:20px 0;
+    font-variant-numeric:tabular-nums;
+}
+
+.timer-buttons{
+    display:flex;
+    justify-content:center;
+    gap:8px;
+    flex-wrap:wrap;
+}
+
+.color-preview{
+    height:100px;
+    border-radius:15px;
+    margin-top:12px;
+    border:1px solid var(--border);
+}
+
+.clock{
+    text-align:center;
+    font-size:30px;
+    font-weight:bold;
+}
+
+.quote{
+    font-size:19px;
+    line-height:1.7;
+    font-style:italic;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+    margin-top:15px;
+}
+
+.stat{
+    background:var(--input);
+    border-radius:12px;
+    padding:15px;
+    text-align:center;
+}
+
+.stat strong{
+    display:block;
+    font-size:22px;
+    margin-top:5px;
+}
+
+footer{
+    text-align:center;
+    color:var(--muted);
+    padding:40px 20px;
+}
+
+.rtl{
+    direction:rtl;
+}
+
+.rtl .user{
+    margin-right:auto;
+    margin-left:0;
+}
+
+@media(max-width:600px){
+
+    header h1{
+        font-size:36px;
+    }
+
+    .container{
+        padding:0 12px;
+    }
+
+    .stats{
+        grid-template-columns:1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>🌐 LifeHub Pro</h1>
+    <p id="subtitle">Your everyday digital toolbox</p>
+</header>
+
+<div class="topbar">
+
+<div class="nav">
+
+<button onclick="go('home')">🏠 <span data-i18n="home">Home</span></button>
+
+<button onclick="go('ai')">🤖 AI</button>
+
+<button onclick="go('tools')">🛠 <span data-i18n="tools">Tools</span></button>
+
+<button onclick="go('todo')">✅ <span data-i18n="tasks">Tasks</span></button>
+
+<button onclick="go('notes')">📝 <span data-i18n="notes">Notes</span></button>
+
+<button onclick="toggleTheme()" id="themeBtn">
+🌙 Dark
+</button>
+
+<select id="lang" onchange="changeLanguage(this.value)">
+<option value="en">🇬🇧 English</option>
+<option value="ar">🇲🇦 العربية</option>
+<option value="fr">🇫🇷 Français</option>
+</select>
+
+</div>
+</div>
+
+
+<div class="container" id="home">
+
+<input
+class="search"
+id="search"
+placeholder="🔍 Search tools..."
+oninput="searchTools()"
+>
+
+<div class="card" style="margin-bottom:20px">
+
+<h2 data-i18n="welcome">👋 Welcome to LifeHub Pro</h2>
+
+<p data-i18n="welcomeText">
+A collection of useful tools in one simple website.
+</p>
+
+<div class="stats">
+
+<div class="stat">
+🛠
+<strong id="toolCount">12</strong>
+<span data-i18n="tools">Tools</span>
+</div>
+
+<div class="stat">
+📝
+<strong id="taskCount">0</strong>
+<span data-i18n="tasks">Tasks</span>
+</div>
+
+<div class="stat">
+💰
+<strong id="expenseTotal">0</strong>
+<span>Expenses</span>
+</div>
+
+</div>
+
+</div>
+
+
+<div class="grid" id="tools">
+
+
+<!-- AI -->
+
+<section class="card ai full" id="ai">
+
+<div class="icon">🤖</div>
+
+<h2>AI Assistant</h2>
+
+<p>
+Ask me something. This demo works locally without an API.
+</p>
+
+<div class="ai-chat" id="chat">
+
+<div class="message bot">
+🤖 Hello! I'm LifeHub AI. Ask me about LifeHub, calculations,
+productivity or type <b>help</b>.
+</div>
+
+</div>
+
+<div class="ai-input">
+
+<input
+id="aiInput"
+placeholder="Ask AI something..."
+onkeydown="if(event.key==='Enter') askAI()"
+>
+
+<button class="action" onclick="askAI()">Send</button>
+
+</div>
+
+</section>
+
+
+<!-- Calculator -->
+
+<section class="card tool">
+
+<div class="icon">🧮</div>
+
+<h3 data-i18n="calculator">Calculator</h3>
+
+<input id="a" type="number" placeholder="First number">
+
+<input id="b" type="number" placeholder="Second number">
+
+<select id="op">
+
+<option value="+">+</option>
+<option value="-">−</option>
+<option value="*">×</option>
+<option value="/">÷</option>
+
+</select>
+
+<button class="action" onclick="calc()">Calculate</button>
+
+<div class="result" id="calcResult"></div>
+
+</section>
+
+
+<!-- Converter -->
+
+<section class="card tool">
+
+<div class="icon">📏</div>
+
+<h3>Unit Converter</h3>
+
+<input id="cv" type="number" placeholder="Value">
+
+<select id="ct">
+
+<option value="km-mi">KM → Miles</option>
+<option value="mi-km">Miles → KM</option>
+<option value="m-km">Meters → KM</option>
+<option value="km-m">KM → Meters</option>
+<option value="kg-lb">KG → Pounds</option>
+<option value="lb-kg">Pounds → KG</option>
+
+</select>
+
+<button class="action" onclick="convert()">Convert</button>
+
+<div class="result" id="convertResult"></div>
+
+</section>
+
+
+<!-- BMI -->
+
+<section class="card tool">
+
+<div class="icon">⚖️</div>
+
+<h3>BMI Calculator</h3>
+
+<input id="weight" type="number" placeholder="Weight kg">
+
+<input id="height" type="number" placeholder="Height cm">
+
+<button class="action" onclick="bmi()">Calculate</button>
+
+<div class="result" id="bmiResult"></div>
+
+</section>
+
+
+<!-- Password -->
+
+<section class="card tool">
+
+<div class="icon">🔐</div>
+
+<h3>Password Generator</h3>
+
+<input
+id="passwordLength"
+type="number"
+value="16"
+min="4"
+max="64"
+placeholder="Length"
+>
+
+<button class="action" onclick="generatePassword()">
+Generate
+</button>
+
+<div class="result" id="passwordResult"></div>
+
+</section>
+
+
+<!-- Random -->
+
+<section class="card tool">
+
+<div class="icon">🎲</div>
+
+<h3>Random Number</h3>
+
+<input id="min" type="number" placeholder="Minimum">
+
+<input id="max" type="number" placeholder="Maximum">
+
+<button class="action" onclick="randomNumber()">
+Generate
+</button>
+
+<div class="result" id="randomResult"></div>
+
+</section>
+
+
+<!-- Color -->
+
+<section class="card tool">
+
+<div class="icon">🎨</div>
+
+<h3>Color Picker</h3>
+
+<input
+type="color"
+id="color"
+value="#6366f1"
+oninput="pickColor()"
+>
+
+<div
+class="color-preview"
+id="colorPreview"
+style="background:#6366f1">
+</div>
+
+<div class="result" id="colorResult">
+#6366f1
+</div>
+
+</section>
+
+
+<!-- Clock -->
+
+<section class="card tool">
+
+<div class="icon">🕒</div>
+
+<h3>Digital Clock</h3>
+
+<div class="clock" id="clock"></div>
+
+<div class="result" id="date"></div>
+
+</section>
+
+
+<!-- Stopwatch -->
+
+<section class="card tool">
+
+<div class="icon">⏱️</div>
+
+<h3>Stopwatch</h3>
+
+<div class="timer" id="stopwatch">
+00:00:00
+</div>
+
+<div class="timer-buttons">
+
+<button class="action" onclick="startStopwatch()">Start</button>
+
+<button class="action" onclick="stopStopwatch()">Stop</button>
+
+<button class="action" onclick="resetStopwatch()">Reset</button>
+
+</div>
+
+</section>
+
+
+<!-- Countdown -->
+
+<section class="card tool">
+
+<div class="icon">⏳</div>
+
+<h3>Countdown Timer</h3>
+
+<input
+id="seconds"
+type="number"
+placeholder="Seconds"
+>
+
+<div class="timer" id="countdown">
+00:00
+</div>
+
+<div class="timer-buttons">
+
+<button class="action" onclick="startCountdown()">Start</button>
+
+<button class="action" onclick="resetCountdown()">Reset</button>
+
+</div>
+
+</section>
+
+
+<!-- Quote -->
+
+<section class="card tool">
+
+<div class="icon">💡</div>
+
+<h3>Daily Motivation</h3>
+
+<p class="quote" id="quote">
+"Small steps every day lead to big results."
+</p>
+
+<button class="action" onclick="newQuote()">
+New Quote
+</button>
+
+</section>
+
+
+<!-- Expenses -->
+
+<section class="card tool">
+
+<div class="icon">💰</div>
+
+<h3>Expense Tracker</h3>
+
+<input
+id="expenseName"
+placeholder="Expense name"
+>
+
+<input
+id="expenseAmount"
+type="number"
+placeholder="Amount"
+>
+
+<button class="action" onclick="addExpense()">
+Add Expense
+</button>
+
+<ul class="expenses" id="expenses"></ul>
+
+<div class="result">
+Total:
+<span id="total">0</span>
+</div>
+
+</section>
+
+
+<!-- TODO -->
+
+<section class="card full" id="todo">
+
+<div class="icon">✅</div>
+
+<h2>My To-Do List</h2>
+
+<input
+id="todoInput"
+placeholder="Write a task..."
+>
+
+<button class="action" onclick="addTodo()">
+Add Task
+</button>
+
+<ul class="todo-list" id="todoList"></ul>
+
+</section>
+
+
+<!-- NOTES -->
+
+<section class="card full" id="notes">
+
+<div class="icon">📝</div>
+
+<h2>Quick Notes</h2>
+
+<textarea
+id="notesArea"
+rows="9"
+placeholder="Write your notes here..."
+></textarea>
+
+<div class="result" id="saveStatus">
+💾 Auto-save enabled
+</div>
+
+</section>
+
+</div>
+</div>
+
+
+<footer>
+LifeHub Pro © 2026 — Made with ❤️
+</footer>
+
+
+<script>
+
+/* =========================
+   LANGUAGE
+========================= */
+
+const translations={
+
+en:{
+home:"Home",
+tools:"Tools",
+tasks:"Tasks",
+notes:"Notes",
+welcome:"👋 Welcome to LifeHub Pro",
+welcomeText:"A collection of useful tools in one simple website.",
+calculator:"Calculator"
+},
+
+fr:{
+home:"Accueil",
+tools:"Outils",
+tasks:"Tâches",
+notes:"Notes",
+welcome:"👋 Bienvenue sur LifeHub Pro",
+welcomeText:"Une collection d'outils utiles dans un seul site.",
+calculator:"Calculatrice"
+},
+
+ar:{
+home:"الرئيسية",
+tools:"الأدوات",
+tasks:"المهام",
+notes:"الملاحظات",
+welcome:"👋 مرحباً بك في LifeHub Pro",
+welcomeText:"مجموعة من الأدوات المفيدة في موقع واحد.",
+calculator:"الآلة الحاسبة"
+}
+
+};
+
+let lang=localStorage.getItem("lhLang")||"en";
+
+function changeLanguage(value){
+
+lang=value;
+
+localStorage.setItem("lhLang",value);
+
+document.documentElement.lang=value;
+
+document.body.classList.toggle("rtl",value==="ar");
+
+document.querySelectorAll("[data-i18n]").forEach(el=>{
+
+let key=el.dataset.i18n;
+
+if(translations[value][key]){
+el.textContent=translations[value][key];
+}
+
+});
+
+document.getElementById("lang").value=value;
+
+}
+
+
+/* =========================
+   THEME
+========================= */
+
+let dark=localStorage.getItem("lhDark")==="true";
+
+function applyTheme(){
+
+document.body.classList.toggle("dark",dark);
+
+document.getElementById("themeBtn").textContent=
+dark ? "☀️ Light" : "🌙 Dark";
+
+}
+
+function toggleTheme(){
+
+dark=!dark;
+
+localStorage.setItem("lhDark",dark);
+
+applyTheme();
+
+}
+
+
+/* =========================
+   CALCULATOR
+========================= */
+
+function calc(){
+
+let a=Number(document.getElementById("a").value);
+
+let b=Number(document.getElementById("b").value);
+
+let op=document.getElementById("op").value;
+
+let r;
+
+if(op==="+")r=a+b;
+if(op==="-")r=a-b;
+if(op==="*")r=a*b;
+
+if(op==="/"){
+
+if(b===0){
+
+document.getElementById("calcResult").textContent=
+"Cannot divide by zero.";
+
+return;
+
+}
+
+r=a/b;
+
+}
+
+document.getElementById("calcResult").textContent=
+"Result: "+r;
+
+}
+
+
+/* =========================
+   CONVERTER
+========================= */
+
+function convert(){
+
+let v=Number(document.getElementById("cv").value);
+
+let t=document.getElementById("ct").value;
+
+let r;
+
+if(t==="km-mi")r=v*.621371;
+if(t==="mi-km")r=v*1.60934;
+if(t==="m-km")r=v/1000;
+if(t==="km-m")r=v*1000;
+if(t==="kg-lb")r=v*2.20462;
+if(t==="lb-kg")r=v*.453592;
+
+document.getElementById("convertResult").textContent=
+"Result: "+r.toFixed(3);
+
+}
+
+
+/* =========================
+   BMI
+========================= */
+
+function bmi(){
+
+let w=Number(document.getElementById("weight").value);
+
+let h=Number(document.getElementById("height").value)/100;
+
+if(w<=0||h<=0)return;
+
+let result=w/(h*h);
+
+document.getElementById("bmiResult").textContent=
+"BMI: "+result.toFixed(1);
+
+}
+
+
+/* =========================
+   PASSWORD
+========================= */
+
+function generatePassword(){
+
+let length=
+Number(document.getElementById("passwordLength").value)||16;
+
+const chars=
+"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=";
+
+let password="";
+
+for(let i=0;i<length;i++){
+
+password+=chars[
+Math.floor(Math.random()*chars.length)
+];
+
+}
+
+document.getElementById("passwordResult").textContent=
+password;
+
+}
+
+
+/* =========================
+   RANDOM NUMBER
+========================= */
+
+function randomNumber(){
+
+let min=Number(document.getElementById("min").value);
+
+let max=Number(document.getElementById("max").value);
+
+if(max<min){
+
+[min,max]=[max,min];
+
+}
+
+let r=
+Math.floor(Math.random()*(max-min+1))+min;
+
+document.getElementById("randomResult").textContent=
+r;
+
+}
+
+
+/* =========================
+   COLOR
+========================= */
+
+function pickColor(){
+
+let color=document.getElementById("color").value;
+
+document.getElementById("colorPreview").style.background=color;
+
+document.getElementById("colorResult").textContent=color;
+
+}
+
+
+/* =========================
+   CLOCK
+========================= */
+
+function updateClock(){
+
+let now=new Date();
+
+document.getElementById("clock").textContent=
+now.toLocaleTimeString();
+
+document.getElementById("date").textContent=
+now.toLocaleDateString();
+
+}
+
+setInterval(updateClock,1000);
+
+updateClock();
+
+
+/* =========================
+   STOPWATCH
+========================= */
+
+let stopwatchTime=0;
+
+let stopwatchInterval=null;
+
+function displayStopwatch(){
+
+let h=Math.floor(stopwatchTime/3600);
+
+let m=Math.floor((stopwatchTime%3600)/60);
+
+let s=stopwatchTime%60;
+
+document.getElementById("stopwatch").textContent=
+String(h).padStart(2,"0")+":"+
+String(m).padStart(2,"0")+":"+
+String(s).padStart(2,"0");
+
+}
+
+function startStopwatch(){
+
+if(stopwatchInterval)return;
+
+stopwatchInterval=setInterval(()=>{
+
+stopwatchTime++;
+
+displayStopwatch();
+
+},1000);
+
+}
+
+function stopStopwatch(){
+
+clearInterval(stopwatchInterval);
+
+stopwatchInterval=null;
+
+}
+
+function resetStopwatch(){
+
+stopStopwatch();
+
+stopwatchTime=0;
+
+displayStopwatch();
+
+}
+
+
+/* =========================
+   COUNTDOWN
+========================= */
+
+let countdownTime=0;
+
+let countdownInterval=null;
+
+function startCountdown(){
+
+if(countdownInterval)return;
+
+countdownTime=
+Number(document.getElementById("seconds").value);
+
+if(countdownTime<=0)return;
+
+countdownInterval=setInterval(()=>{
+
+countdownTime--;
+
+let m=Math.floor(countdownTime/60);
+
+let s=countdownTime%60;
+
+document.getElementById("countdown").textContent=
+String(m).padStart(2,"0")+":"+
+String(s).padStart(2,"0");
+
+if(countdownTime<=0){
+
+clearInterval(countdownInterval);
+
+countdownInterval=null;
+
+alert("⏰ Time is up!");
+
+}
+
+},1000);
+
+}
+
+function resetCountdown(){
+
+clearInterval(countdownInterval);
+
+countdownInterval=null;
+
+countdownTime=0;
+
+document.getElementById("countdown").textContent="00:00";
+
+}
+
+
+/* =========================
+   QUOTES
+========================= */
+
+const quotes={
+
+en:[
+"Small steps every day lead to big results.",
+"Progress is better than perfection.",
+"Believe in yourself.",
+"Great things take time.",
+"Keep learning and growing."
+],
+
+fr:[
+"Les petits pas quotidiens mènent à de grands résultats.",
+"Le progrès vaut mieux que la perfection.",
+"Croyez en vous.",
+"Les grandes choses prennent du temps.",
+"Continuez à apprendre et à grandir."
+],
+
+ar:[
+"الخطوات الصغيرة كل يوم تؤدي إلى نتائج كبيرة.",
+"التقدم أفضل من الكمال.",
+"آمن بنفسك.",
+"الأشياء العظيمة تحتاج إلى وقت.",
+"استمر في التعلم والنمو."
+]
+
+};
+
+function newQuote(){
+
+let list=quotes[lang];
+
+let r=Math.floor(Math.random()*list.length);
+
+document.getElementById("quote").textContent=
+'"'+list[r]+'"';
+
+}
+
+
+/* =========================
+   TODO
+========================= */
+
+let todos=
+JSON.parse(localStorage.getItem("lhTodos")||"[]");
+
+function renderTodos(){
+
+const list=document.getElementById("todoList");
+
+list.innerHTML="";
+
+todos.forEach((todo,index)=>{
+
+let li=document.createElement("li");
+
+let span=document.createElement("span");
+
+span.textContent=todo.text;
+
+if(todo.done)span.classList.add("done");
+
+span.onclick=()=>{
+
+todo.done=!todo.done;
+
+saveTodos();
+
+renderTodos();
+
+};
+
+let btn=document.createElement("button");
+
+btn.className="delete";
+
+btn.textContent="Delete";
+
+btn.onclick=()=>{
+
+todos.splice(index,1);
+
+saveTodos();
+
+renderTodos();
+
+};
+
+li.appendChild(span);
+
+li.appendChild(btn);
+
+list.appendChild(li);
+
+});
+
+document.getElementById("taskCount").textContent=todos.length;
+
+}
+
+function addTodo(){
+
+let input=document.getElementById("todoInput");
+
+let text=input.value.trim();
+
+if(!text)return;
+
+todos.push({
+text:text,
+done:false
+});
+
+input.value="";
+
+saveTodos();
+
+renderTodos();
+
+}
+
+function saveTodos(){
+
+localStorage.setItem(
+"lhTodos",
+JSON.stringify(todos)
+);
+
+}
+
+
+/* =========================
+   NOTES
+========================= */
+
+const notes=document.getElementById("notesArea");
+
+notes.value=
+localStorage.getItem("lhNotes")||"";
+
+notes.addEventListener("input",()=>{
+
+localStorage.setItem(
+"lhNotes",
+notes.value
+);
+
+document.getElementById("saveStatus").textContent=
+"✅ Saved";
+
+});
+
+
+/* =========================
+   EXPENSES
+========================= */
+
+let expenses=
+JSON.parse(localStorage.getItem("lhExpenses")||"[]");
+
+function renderExpenses(){
+
+let list=document.getElementById("expenses");
+
+list.innerHTML="";
+
+let total=0;
+
+expenses.forEach((expense,index)=>{
+
+total+=Number(expense.amount);
+
+let li=document.createElement("li");
+
+li.innerHTML=
+"<span>"+
+expense.name+
+"</span>"+
+"<b>"+expense.amount+"</b>";
+
+let btn=document.createElement("button");
+
+btn.className="delete";
+
+btn.textContent="×";
+
+btn.onclick=()=>{
+
+expenses.splice(index,1);
+
+saveExpenses();
+
+renderExpenses();
+
+};
+
+li.appendChild(btn);
+
+list.appendChild(li);
+
+});
+
+document.getElementById("total").textContent=
+total.toFixed(2);
+
+document.getElementById("expenseTotal").textContent=
+total.toFixed(2);
+
+}
+
+function addExpense(){
+
+let name=
+document.getElementById("expenseName").value.trim();
+
+let amount=
+Number(document.getElementById("expenseAmount").value);
+
+if(!name||amount<=0)return;
+
+expenses.push({
+name:name,
+amount:amount
+});
+
+document.getElementById("expenseName").value="";
+
+document.getElementById("expenseAmount").value="";
+
+saveExpenses();
+
+renderExpenses();
+
+}
+
+function saveExpenses(){
+
+localStorage.setItem(
+"lhExpenses",
+JSON.stringify(expenses)
+);
+
+}
+
+
+/* =========================
+   SEARCH
+========================= */
+
+function searchTools(){
+
+let query=
+document.getElementById("search").value.toLowerCase();
+
+document.querySelectorAll(".tool").forEach(card=>{
+
+let text=card.innerText.toLowerCase();
+
+card.style.display=
+text.includes(query) ? "" : "none";
+
+});
+
+}
+
+
+/* =========================
+   NAVIGATION
+========================= */
+
+function go(id){
+
+document.getElementById(id).scrollIntoView({
+behavior:"smooth"
+});
+
+}
+
+
+/* =========================
+   LOCAL AI
+========================= */
+
+function addMessage(text,type){
+
+let chat=document.getElementById("chat");
+
+let div=document.createElement("div");
+
+div.className="message "+type;
+
+div.textContent=text;
+
+chat.appendChild(div);
+
+chat.scrollTop=chat.scrollHeight;
+
+}
+
+function askAI(){
+
+let input=document.getElementById("aiInput");
+
+let question=input.value.trim();
+
+if(!question)return;
+
+addMessage(question,"user");
+
+input.value="";
+
+setTimeout(()=>{
+
+let q=question.toLowerCase();
+
+let answer="";
+
+if(q.includes("hello")||
+q.includes("hi")||
+q.includes("salam")||
+q.includes("سلام")){
+
+answer=
+"👋 Hello! I'm your LifeHub AI assistant.";
+
+}
+
+else if(q.includes("help")){
+
+answer=
+"🤖 I can help you use LifeHub. Try asking: calculator, notes, tasks, password, timer, converter, or motivation.";
+
+}
+
+else if(q.includes("calculator")||
+q.includes("calculate")){
+
+answer=
+"🧮 Use the Calculator card to perform addition, subtraction, multiplication and division.";
+
+}
+
+else if(q.includes("password")){
+
+answer=
+"🔐 Use Password Generator to create a random password.";
+
+}
+
+else if(q.includes("note")){
+
+answer=
+"📝 Your notes are automatically saved in your browser.";
+
+}
+
+else if(q.includes("task")||
+q.includes("todo")){
+
+answer=
+"✅ Add tasks in the To-Do section. Click a task to mark it completed.";
+
+}
+
+else if(q.includes("dark")){
+
+answer=
+"🌙 Click the Dark button at the top to switch between Dark and Light mode.";
+
+}
+
+else if(q.includes("timer")){
+
+answer=
+"⏳ LifeHub has both a countdown timer and a stopwatch.";
+
+}
+
+else if(q.includes("motivation")){
+
+answer=
+"💡 Remember: progress is better than perfection.";
+
+}
+
+else{
+
+answer=
+"🤖 I'm the local LifeHub AI demo. For a real AI with natural-language answers, connect this interface to an AI API through a secure backend.";
+
+}
+
+addMessage(answer,"bot");
+
+},400);
+
+}
+
+
+/* =========================
+   INIT
+========================= */
+
+applyTheme();
+
+changeLanguage(lang);
+
+renderTodos();
+
+renderExpenses();
+
+displayStopwatch();
+
+</script>
+
+</body>
+</html>
